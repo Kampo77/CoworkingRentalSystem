@@ -18,6 +18,38 @@ services:
       timeout: 1s
       retries: 100
 
+  gateway:
+    build:
+      context: .
+      dockerfile: ./apps/gateway/Dockerfile
+    container_name: gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - internal
+
+  inventory:
+    build:
+      context: .
+      dockerfile: ./apps/inventory/Dockerfile
+    container_name: inventory
+    depends_on:
+      - db
+    networks:
+      - internal
+  
+  orders:
+    build:
+      context: .
+      dockerfile: ./apps/order/Dockerfile
+    container_name: orders
+    depends_on:
+      - db
+    networks:
+      - internal
+
 networks:
   internal:
 
